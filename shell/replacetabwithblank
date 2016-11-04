@@ -1,0 +1,25 @@
+#!/bin/bash
+#replace tab key witch 4 blank spaces
+#$? 1:no param;
+#   2:more than 1 param;
+#   0:execute ok;
+if [ $# -lt 1 ];then
+echo "Usage: expand.sh file"
+exit 2 
+fi
+srcFile="$1"
+if [ -z $1 ];then
+echo "param is null"
+exit 1 
+fi
+echo "srcFile:$srcFile"
+srcFileName="${srcFile##*/}"
+echo "srcFileName:$srcFileName"
+newFileName=new_$srcFileName
+echo "newFileName:$newFileName"
+srcFilePath="${srcFile%/*}"
+echo "srcFilePath:$srcFilePath"
+newFile="$srcFilePath"/"$newFileName"
+echo "newFile:$newFile"
+cat $srcFile | expand -t 4 > $newFile
+exit 0
