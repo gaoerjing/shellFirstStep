@@ -1,0 +1,35 @@
+注意事项：
+    1.访问网络的代码或者获得当前的IP地址操作，不能放在主线程里面
+    2.EntityUtils.toString(entity))这个里面的entity指的是HttpResponse得到返回值，这个toString方法不能多次调用，否则会有“java.lang.IllegalStateException: Content has been consumed”这种异常信息，导致APK产生ANR。
+
+Http的Post方法，主要用来更新服务端的数据，通过NameValuePair给服务器传参数
+Http的get方法，主要用来读取服务端的数据，通过URL的拼接给服务器传参数例如http://localhost:8888/name=w3c&email=w3c@w3cschool.cc
+上面是标准做法，下面用Http的Post方法来读取服务端数据
+        HttpClient hc = new DefaultHttpClient();
+        HttpPost hp = new HttpPost("http://172.16.19.113:8888");
+        HttpResponse hr = null;
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
+        formparams.add(new BasicNameValuePair("username", "admin"));  
+        formparams.add(new BasicNameValuePair("password", "123456"));
+        try {
+            HttpEntity entity = new UrlEncodedFormEntity(formParams, "UTF-8");
+            hp.setEntity(entity);//设置HttpPost的参数
+            hr = hc.execute(hp);//进行服务器访问
+            Log.i(TAG,"MyAsyncTask after execute httpclient");
+            if(hr.getStatusLine().getStatusCode() == 200){
+                entity = hr.getEntity();//得到服务器的返回值HttpResponse
+                JSONObject json = new JSONObject(EntityUtils.toString(entity));
+                Iterator it = json.keys();  
+                while (it.hasNext()){  
+                    String key = String.valueOf(it.next());
+                    Log.i(TAG,"key="+key+"--->"+json.getString(key));
+                }//转换为json类型，将key和value打印出来
+                //这个EntityUtils.toString不能多次调用，否则会出现
+                //“java.lang.IllegalStateException: Content has been consumed”这种异常信息，
+                //使程序产生ANR
+                //Log.i(TAG,"http response="+EntityUtils.toString(entity));
+            }
+        } catch (Exception e) {
+            Log.i(TAG,"------"+e.getMessage());
+            e.printStackTrace();
+        }
