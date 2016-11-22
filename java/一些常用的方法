@@ -1,0 +1,17 @@
+1.HttpResponse可以得到HttpEntity，那么HttpEntity怎么转换为字符串呢？
+	EntityUtils.toString(entity);
+	
+2.怎么把InputStream转化为字符串？
+	InputStream in;
+        ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+        int rCount = 0;
+        byte[] buff = new byte[BUFFER_SIZE];
+
+        try {
+            while ((rCount = in.read(buff, 0, BUFFER_SIZE)) != -1) {
+                swapStream.write(buff, 0, rCount);
+            }
+
+        String str = new String(swapStream.toByteArray());	
+3.HttpEntity怎么转为话InputStream?
+	InputStream in = entity.getContent();
