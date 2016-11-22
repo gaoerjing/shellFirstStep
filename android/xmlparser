@@ -1,0 +1,50 @@
+1.模仿camera解析preference
+xml文件的结构如下，注意每个TAG如person，后面的id，name，sex等作为属性是直接跟着TAG
+<?xml version="1.0" encoding="utf-8"?>
+<persons>
+    <person id="001"
+        name="sela"
+        sex="women"
+        age="16"
+        address="hs"
+        />
+    <person id="002"
+        name="shitou"
+        sex="man"
+        age="18"
+        address="jn" 
+        />
+</persons>
+如果这么写name，sex，age，address的内容我不知道怎么读取出来
+<?xml version="1.0" encoding="utf-8"?>
+<persons>
+    <person id="001">
+        <name>sela</name>
+        <sex>women</sex>
+        <age>16</age>
+        <address>hs</address>
+        </person>
+</persons>
+
+代码：
+XmlPullParser parser = mContext.getResources().getXml(R.xml.persons);
+AttributeSet attrs = Xml.asAttributeSet(parser);
+for (int type = parser.next(); type != XmlPullParser.END_DOCUMENT; type = parser.next()) {
+                if (type != XmlPullParser.START_TAG)
+                    continue;
+                CameraPreference pref = newPreference(parser.getName(), args);
+                
+                int depth = parser.getDepth();
+                if (depth > list.size()) {
+                    list.add(pref);
+                } else {
+                    list.set(depth - 1, pref);
+                }
+                if (depth > 1) {
+                    ((PreferenceGroup) list.get(depth - 2)).addChild(pref);
+                }
+            }
+            if (list.size() == 0) {
+                throw new InflateException("No root element found");
+            }
+}
