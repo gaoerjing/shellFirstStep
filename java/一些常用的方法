@@ -1,5 +1,6 @@
 1.HttpResponse可以得到HttpEntity，那么HttpEntity怎么转换为字符串呢？
 	EntityUtils.toString(entity);
+	我觉得这个只是适用于较小的数据，如果是2G甚至更大的话，这个String得多大，内存不够用了。
 	
 2.怎么把InputStream转化为字符串？
 	InputStream in;
@@ -13,5 +14,8 @@
             }
 
         String str = new String(swapStream.toByteArray());	
-3.HttpEntity怎么转为话InputStream?
+3.HttpEntity怎么转化为InputStream?
 	InputStream in = entity.getContent();
+
+4.BufferedReader和BufferedWriter比一般的流多了readLine和writeLine方法
+    BufferedReader br = new BufferedReader(new InputStreamReader(InputStream input))
