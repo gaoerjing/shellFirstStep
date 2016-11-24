@@ -19,3 +19,6 @@
 
 4.BufferedReader和BufferedWriter比一般的流多了readLine和writeLine方法
     BufferedReader br = new BufferedReader(new InputStreamReader(InputStream input))
+
+5.Uri经常会有这种格式，http://localhost:8080/xxxxxx&user=sela
+	可以用uri.getQueryParameters("user")；得到sela这个值
