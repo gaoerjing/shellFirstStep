@@ -1,0 +1,6 @@
+一、synchronized
+1.一个线程访问一个对象的synchronized代码块时，别的线程可以访问该对象的非synchronized代码块而不受阻塞。
+2.用synchronized给account对象加了锁。这时，当一个线程访问account对象时，其他试图访问account对象的线程将会阻塞,直到该线程访问account对象结束。也就是说谁拿到那个锁谁就可以运行它所控制的那段代码。
+3.synchronized修饰的静态方法锁定的是这个类的所有对象.
+4.synchronized修饰非静态方法，相当于锁住的是对象，如果其他代码地方有synchronized（this）代码
+  也会被锁住，或者如果synchronized(this)得到了锁后，synchronized修改的非静态方法也会被锁住。

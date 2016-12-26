@@ -21,4 +21,14 @@
     BufferedReader br = new BufferedReader(new InputStreamReader(InputStream input))
 
 5.Uri经常会有这种格式，http://localhost:8080/xxxxxx&user=sela
-	可以用uri.getQueryParameters("user")；得到sela这个值
+	1)可以用uri.getQueryParameters("user")；得到sela这个值
+	Uri uri = Uri.parse("http://www.baidu.com");
+	Uri.Builder builder = uri.buildUpon();
+        builder.appendQueryParameter("user", "sela");
+        builder.appendQueryParameter("passwd", "123456");
+        uri = builder.build();
+	2)给一个Uril添加id
+	ContentUris.withAppendedId(uri, rowId);
+
+6.Drawble和InputStream
+	Drawable.createFromStream(InputStream,"src")
